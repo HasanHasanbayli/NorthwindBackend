@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Contants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -33,20 +34,20 @@ public class ProductService : IProductService
     {
         _productDal.Add(product);
 
-        return new Result(true, "Item successfully saved");
+        return new Result(true, Messages.ProductAdded);
     }
 
     public IResult Update(Product product)
     {
         _productDal.Update(product);
 
-        return new Result(true, "Item successfully updated");
+        return new Result(true, Messages.ProductUpdated);
     }
 
     public IResult Delete(Product product)
     {
         _productDal.Delete(product);
 
-        return new Result(true, "Item successfully deleted");
+        return new Result(true, Messages.ProductDeleted);
     }
 }

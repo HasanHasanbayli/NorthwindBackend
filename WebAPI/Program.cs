@@ -5,7 +5,7 @@ using Business.DependencyResolvers.Autofac;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+ConfigurationManager aa = builder.Configuration;
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {

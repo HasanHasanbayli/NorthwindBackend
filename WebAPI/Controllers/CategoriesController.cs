@@ -8,10 +8,12 @@ namespace WebAPI.Controllers;
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
+    private readonly IConfiguration Configuration;
 
     public CategoriesController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
+        Configuration.GetSection("").Get<object>();
     }
 
     [HttpGet("getall")]

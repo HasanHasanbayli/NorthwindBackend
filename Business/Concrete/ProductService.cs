@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Contants;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,9 +15,9 @@ public class ProductService : IProductService
         _productDal = productDal;
     }
 
-    public IDataResult<Product> GetById(int productId)
+    public IDataResult<Product?> GetById(int productId)
     {
-        return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
+        return new SuccessDataResult<Product?>(_productDal.Get(p => p.ProductId == productId));
     }
 
     public IDataResult<List<Product>> GetList()

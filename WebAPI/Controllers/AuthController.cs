@@ -35,23 +35,23 @@ public class AuthController : ControllerBase
         return BadRequest(result.Message);
     }
     
-    [HttpPost("register")]
-    public IActionResult Register(RegisterRequest registerRequest, string password)
-    {
-        var userExists = _authService.UserExists(registerRequest.Email);
-        
-        if (!userExists.Success)
-        {
-            return BadRequest(userExists.Message);
-        }
-
-        var result = _authService.CreateAccessToken(userToLogin.Data);
-
-        if (result.Success)
-        {
-            return Ok(result.Data);
-        }
-
-        return BadRequest(result.Message);
-    }
+    // [HttpPost("register")]
+    // public IActionResult Register(RegisterRequest registerRequest, string password)
+    // {
+    //     var userExists = _authService.UserExists(registerRequest.Email);
+    //     
+    //     if (!userExists.Success)
+    //     {
+    //         return BadRequest(userExists.Message);
+    //     }
+    //
+    //     var result = _authService.CreateAccessToken(userToLogin.Data);
+    //
+    //     if (result.Success)
+    //     {
+    //         return Ok(result.Data);
+    //     }
+    //
+    //     return BadRequest(result.Message);
+    // }
 }

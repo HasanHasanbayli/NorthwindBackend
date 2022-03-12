@@ -21,10 +21,8 @@ public class AuthService : IAuthService
 
     public IDataResult<User> Register(RegisterRequest registerRequest, string password)
     {
-        byte[] passwordHash, passwordSalt;
-
-        HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
+        HashingHelper.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
+        
         var user = new User
         {
             Email = registerRequest.Email,
@@ -32,6 +30,7 @@ public class AuthService : IAuthService
             LastName = registerRequest.LastName,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
+            Status = true
         };
 
         _userService.AddUser(user);

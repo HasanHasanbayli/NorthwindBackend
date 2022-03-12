@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -17,6 +17,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("getall")]
+    [Authorize(Roles = "SuperAdmin")]
     public IActionResult GetList()
     {
         var result = _productService.GetList();
@@ -30,6 +31,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("getlistbycategory")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public IActionResult GetByCategory(int categoryId)
     {
         var result = _productService.GetListByCategory(categoryId);

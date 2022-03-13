@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -30,6 +33,7 @@ public class ProductService : IProductService
         return new SuccessDataResult<List<Product>>(_productDal.GetList(p => p.CategoryId == categoryId).ToList());
     }
 
+    [ValidationAspect(typeof(ProductValidator), Priority = 1)]
     public IResult Add(Product product)
     {
         _productDal.Add(product);

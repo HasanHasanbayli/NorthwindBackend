@@ -31,7 +31,6 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("getlistbycategory")]
-    [Authorize(Roles = "SuperAdmin,Admin")]
     public IActionResult GetByCategory(int categoryId)
     {
         var result = _productService.GetListByCategory(categoryId);

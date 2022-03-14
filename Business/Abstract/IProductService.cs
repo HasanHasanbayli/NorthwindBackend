@@ -16,4 +16,6 @@ public interface IProductService
     IResult Update(Product product);
 
     IResult Delete(Product product);
+
+    public IResult TransactionalOperation(Product product);
 }

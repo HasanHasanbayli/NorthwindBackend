@@ -37,6 +37,7 @@ public class ProductService : IProductService
     public IResult Add(Product product)
     {
         _productDal.Add(product);
+        _productDal.Update(product);
 
         return new Result(true, Messages.ProductAdded);
     }

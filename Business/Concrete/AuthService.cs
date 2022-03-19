@@ -22,7 +22,7 @@ public class AuthService : IAuthService
     public IDataResult<User> Register(RegisterRequest registerRequest, string password)
     {
         HashingHelper.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
-        
+
         var user = new User
         {
             Email = registerRequest.Email,

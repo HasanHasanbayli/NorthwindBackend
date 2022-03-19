@@ -9,8 +9,8 @@ public class NorthwindContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            // @"Server=LEGION\SQLEXPRESS;Initial Catalog=Northwind;Trusted_Connection=true");
-            @"Server=XSIT-PC-011\HASANHASANBAYLI;Initial Catalog=Northwind;Trusted_Connection=true");
+            @"Server=LEGION\SQLEXPRESS;Initial Catalog=Northwind;Trusted_Connection=true");
+            // @"Server=XSIT-PC-011\HASANHASANBAYLI;Initial Catalog=Northwind;Trusted_Connection=true");
     }
 
     public DbSet<Product> Products { get; set; }

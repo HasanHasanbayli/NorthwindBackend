@@ -17,7 +17,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("getall")]
-    [Authorize(Roles = "SuperAdmin")]
+    // [Authorize(Roles = "SuperAdmin")]
     public IActionResult GetList()
     {
         var result = _productService.GetList();

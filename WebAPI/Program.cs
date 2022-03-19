@@ -1,6 +1,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services;
-ConfigurationManager configuration = builder.Configuration; 
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -41,6 +44,11 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     });
 
 services.AddEndpointsApiExplorer();
+
+services.AddDependencyResolvers(new ICoreModule[]
+{
+    new CoreModule(),
+});
 
 services.AddSwaggerGen();
 

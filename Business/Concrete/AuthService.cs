@@ -18,7 +18,7 @@ public class AuthService : IAuthService
         _userService = userService;
         _tokenHelper = tokenHelper;
     }
-
+  
     public IDataResult<User> Register(RegisterRequest registerRequest, string password)
     {
         HashingHelper.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);

@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
@@ -24,8 +26,11 @@ public class ProductService : IProductService
         return new SuccessDataResult<Product?>(_productDal.Get(p => p.ProductId == productId));
     }
     
+    [SecuredOperation("Admin")]
+    [PerformanceAspect(6)]
     public IDataResult<List<Product>> GetList()
     {
+        Thread.Sleep(6000);
         return new SuccessDataResult<List<Product>>(_productDal.GetList().ToList());
     }
     
@@ -40,7 +45,6 @@ public class ProductService : IProductService
     public IResult Add(Product product)
     {
         _productDal.Add(product);
-        _productDal.Update(product);
 
         return new Result(true, Messages.ProductAdded);
     }

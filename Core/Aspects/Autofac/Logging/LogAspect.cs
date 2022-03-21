@@ -14,7 +14,7 @@ public class LogAspect : MethodInterception
     {
         if (loggerService.BaseType != typeof(LoggerServiceBase))
         {
-            throw new Exception(AspectMessages.WrongLoggerType);
+            throw new System.Exception(AspectMessages.WrongLoggerType);
         }
 
         _loggerServiceBase = (LoggerServiceBase) Activator.CreateInstance(loggerService);
@@ -27,11 +27,17 @@ public class LogAspect : MethodInterception
 
     private LogDetail GetLogDetail(IInvocation invocation)
     {
-        var logParameters = invocation.Arguments.Select(x => new LogParameter
+        var logParameters = new List<LogParameter>();
+
+        for (int i = 0; i < invocation.Arguments.Length; i++)
         {
-            Value = x,
-            Type = x.GetType().Name
-        }).ToList();
+            logParameters.Add(new LogParameter
+            {
+                Name = invocation.GetConcreteMethod().GetParameters()[i].Name,
+                Value = invocation.Arguments[i],
+                Type = invocation.Arguments[i].GetType().Name
+            });
+        }
 
         var logDetail = new LogDetail
         {

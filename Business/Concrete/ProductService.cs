@@ -27,16 +27,17 @@ public class ProductService : IProductService
     {
         return new SuccessDataResult<Product?>(_productDal.Get(p => p.ProductId == productId));
     }
-    
+
     [SecuredOperation("Admin")]
     [PerformanceAspect(6)]
+    [LogAspect(typeof(FileLogger))]
     public IDataResult<List<Product>> GetList()
     {
-        Thread.Sleep(6000);
+        // Thread.Sleep(6000);
         return new SuccessDataResult<List<Product>>(_productDal.GetList().ToList());
     }
-    
-    [CacheAspect(duration:60)]
+
+    [CacheAspect(duration: 60)]
     // [LogAspect(typeof(FileLogger))]
     public IDataResult<List<Product>> GetListByCategory(int categoryId)
     {

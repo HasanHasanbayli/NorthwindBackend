@@ -203,5 +203,3 @@ healthchecksdb
 MigrationBackup/
 .ionide/
 FodyWeavers.xsd
-
-WebAPI/appsettings.Development.json

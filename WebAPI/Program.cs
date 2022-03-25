@@ -61,6 +61,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.ConfigureCustomExceptionMiddleware();
+
 app.UseCors(policyBuilder =>
     policyBuilder.WithOrigins("http://localhost:3000").AllowAnyHeader());
 

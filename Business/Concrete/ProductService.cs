@@ -8,6 +8,7 @@ using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,10 +18,12 @@ namespace Business.Concrete;
 public class ProductService : IProductService
 {
     private readonly IProductDal _productDal;
+    private readonly ICategoryService _categoryService;
 
-    public ProductService(IProductDal productDal)
+    public ProductService(IProductDal productDal, ICategoryService categoryService)
     {
         _productDal = productDal;
+        _categoryService = categoryService;
     }
 
     public IDataResult<Product?> GetById(int productId)
@@ -33,12 +36,12 @@ public class ProductService : IProductService
     [LogAspect(typeof(FileLogger))]
     public IDataResult<List<Product>> GetList()
     {
-        // Thread.Sleep(6000);
+        Thread.Sleep(6000);
         return new SuccessDataResult<List<Product>>(_productDal.GetList().ToList());
     }
 
     [CacheAspect(duration: 60)]
-    // [LogAspect(typeof(FileLogger))]
+    [LogAspect(typeof(FileLogger))]
     public IDataResult<List<Product>> GetListByCategory(int categoryId)
     {
         return new SuccessDataResult<List<Product>>(_productDal.GetList(p => p.CategoryId == categoryId).ToList());
@@ -48,6 +51,13 @@ public class ProductService : IProductService
     [CacheRemoveAspect("IProductService.Get")]
     public IResult Add(Product product)
     {
+        IResult result = BusinessRules.Run(CheckIfProductNameExists(product.ProductName),CheckIfCategoryIsEnabled());
+
+        if (result != null)
+        {
+            return result;
+        }
+
         _productDal.Add(product);
 
         return new Result(true, Messages.ProductAdded);
@@ -73,5 +83,27 @@ public class ProductService : IProductService
         _productDal.Update(product);
         _productDal.Add(product);
         return new Result(true, Messages.ProductUpdated);
+    }
+
+    private IResult CheckIfProductNameExists(string productProductName)
+    {
+        if (_productDal.Get(x => x.ProductName == productProductName) != null)
+        {
+            return new ErrorResult(Messages.ProductNameAlreadyExists);
+        }
+
+        return new SuccessResult();
+    }
+
+    private IResult CheckIfCategoryIsEnabled()
+    {
+        var result = _categoryService.GetList();
+        
+        if (result.Data.Count < 10)
+        {
+            return new ErrorResult(Messages.ProductNameAlreadyExists);
+        }
+
+        return new SuccessResult();
     }
 }

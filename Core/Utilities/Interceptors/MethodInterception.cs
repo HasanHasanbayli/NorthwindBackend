@@ -12,7 +12,7 @@ public class MethodInterception : MethodInterceptionBaseAttribute
     {
     }
 
-    protected virtual void OnException(IInvocation invocation)
+    protected virtual void OnException(IInvocation invocation, Exception exception)
     {
     }
 
@@ -31,7 +31,7 @@ public class MethodInterception : MethodInterceptionBaseAttribute
         catch (Exception e)
         {
             isSuccess = false;
-            OnException(invocation);
+            OnException(invocation, e);
             throw;
         }
         finally
